@@ -58,7 +58,7 @@ def main(args):
                 # For API requests using Basic Authentication or OAuth, you can make up to 5,000 requests per hour.
 
                 if 'location' in user and user['location'] is not None and search_location in user['location']:
-                    print(topic['html_url'], topic['created_at'])
+                    print('Found it! = createdat : ', topic['created_at'], ', repository : ', topic['html_url'])
 
             page = page + 1
 
