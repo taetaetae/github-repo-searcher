@@ -14,7 +14,7 @@
   - requests
   - python-dateutil 
 
-- 💻 사용법
+- 사용법
   - 파라미터를 받아 처리 됩니다.
   ```shell
   $ python main.py github_id=taetaetae github_token=ASDFASDFASDF
