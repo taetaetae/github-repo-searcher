@@ -16,7 +16,7 @@
 
 - 사용법
   - 파라미터를 받아 처리 됩니다.
-  ```shell
+  ```
   $ python main.py github_id=taetaetae github_token=ASDFASDFASDF
   search base time : 2020-10-11,  now time : 2020-10-11 17:59:22,  page : 1,  user_count : 30,  total_count : 76
   Found it! = createdat :  2020-10-11T08:08:05Z , repository :  https://github.com/taetaetae/github-repo-searcher
