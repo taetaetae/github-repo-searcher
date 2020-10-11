@@ -5,7 +5,16 @@ from dateutil.relativedelta import relativedelta
 
 
 def main(args):
-    args = dict([arg.split('=', maxsplit=1) for arg in args[1:]])
+    dummy_dict = {}
+    for arg in args:
+        if '=' in arg:
+            split = arg.split('=')
+            dummy_dict[split[0]] = split[1]
+    args = dummy_dict
+
+    if 'github_id' not in args or 'github_id' not in args:
+        print('Required parameters are missing.')
+        exit(-1)
 
     # init
     github_api_url = 'https://api.github.com'
@@ -28,8 +37,9 @@ def main(args):
                                       + '&page=' + str(page),
                                   auth=my_auth,
                                   headers={'Accept': 'application/vnd.github.mercy-preview+json'}).json()
-            # https://docs.github.com/en/free-pro-team@latest/rest/reference/search
             time.sleep(5)
+            # https://docs.github.com/en/free-pro-team@latest/rest/reference/search
+            # To satisfy that need, the GitHub Search API provides up to 1,000 results for each search.
             if int(len(topics['items'])) == 0:
                 break
 
@@ -43,10 +53,11 @@ def main(args):
 
             for topic in topics['items']:
                 user = requests.get(url=github_api_url + '/users/' + topic['owner']['login'], auth=my_auth).json()
+                time.sleep(0.5)
                 # https://docs.github.com/en/free-pro-team@latest/rest/overview/resources-in-the-rest-api#rate-limiting
                 # For API requests using Basic Authentication or OAuth, you can make up to 5,000 requests per hour.
 
-                if 'location' in user and search_location in user['location']:
+                if 'location' in user and user['location'] is not None and search_location in user['location']:
                     print(topic['html_url'], topic['created_at'])
 
             page = page + 1
