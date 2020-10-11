@@ -5,7 +5,6 @@
   - created_at 이 '지정한 범위' 내에 있고 (and)
   - 찾은 repository > user 의 location 이 '지정한 지역' 일때
 
-
 - github 에서 '토픽' 과 '지역' 을 and 조건으로 검색이 안되어 만들게 되었습니다.
 - github api 호출 제한이 있기 때문에 적당히 호출해야 합니다.
 - [hacktoberfest](https://www.hacktoberfestkorea.com/)를 진행하다 검색에 어려움이 있어 만들게 되었습니다.
@@ -34,3 +33,10 @@
   | search_topic | X | 찾으려는 topic | hacktoberfest |
   | search_month_range | X | 찾으려는 기간(월) | 6 |
   | search_location | X | 찾으려는 지역 | Korea |
+
+
+#### Contributors
+
+<a href="https://github.com/taetaetae/github-repo-searcher/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=taetaetae/github-repo-searcher" />
+</a>
