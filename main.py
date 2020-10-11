@@ -32,9 +32,8 @@ def main(args):
     while now_datetime > limit_datetime:
         page = 1
         while True:
-            topics = requests.get(url=github_api_url + '/search/repositories?q=topic:' + search_topic + '+created:'
-                                      + str(now_datetime.strftime('%Y-%m-%d'))
-                                      + '&page=' + str(page),
+            search_base_time = str(now_datetime.strftime('%Y-%m-%d'))
+            topics = requests.get(url=github_api_url + f'/search/repositories?q=topic:{search_topic}+created:{search_base_time}&page={page}',
                                   auth=my_auth,
                                   headers={'Accept': 'application/vnd.github.mercy-preview+json'}).json()
             time.sleep(5)
@@ -44,21 +43,22 @@ def main(args):
                 break
 
             print(
-                'search base time : ' + now_datetime.strftime('%Y-%m-%d') + ', ',
-                'now time : ' + datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ', ',
-                'page : ' + str(page) + ', ',
-                'user_count : ' + str(len(topics['items'])) + ', ',
-                'total_count : ' + str(topics['total_count'])
+                f'search base time : {search_base_time}, ',
+                f'now time : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, ',
+                f'page : {page}, ',
+                f'user_count : {len(topics["items"])}, ',
+                f'total_count : {topics["total_count"]}'
             )
 
             for topic in topics['items']:
-                user = requests.get(url=github_api_url + '/users/' + topic['owner']['login'], auth=my_auth).json()
+                user_id=topic['owner']['login']
+                user = requests.get(url=github_api_url + f'/users/{user_id}', auth=my_auth).json()
                 time.sleep(0.5)
                 # https://docs.github.com/en/free-pro-team@latest/rest/overview/resources-in-the-rest-api#rate-limiting
                 # For API requests using Basic Authentication or OAuth, you can make up to 5,000 requests per hour.
 
                 if 'location' in user and user['location'] is not None and search_location in user['location']:
-                    print('Found it! = createdat : ', topic['created_at'], ', repository : ', topic['html_url'])
+                    print(f'Found it! = createdat : {topic["created_at"]}, repository : {topic["html_url"]}')
 
             page = page + 1
 
