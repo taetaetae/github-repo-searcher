@@ -10,7 +10,7 @@
 - [hacktoberfest](https://www.hacktoberfestkorea.com/)를 진행하다 검색에 어려움이 있어 만들게 되었습니다.
 - 범용적으로 만들기 위해 '토픽', '검색일자', '지역' 을 파라미터로 받습니다.
 
-- 필요한 패키지 설치 방법
+- 필요한 패키지 설치 방법  
 아래 명령어를 통해 필요한 패키지를 모두 설치할 수 있습니다.  
 ```
 pip install -r requirements.txt
