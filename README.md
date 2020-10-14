@@ -9,9 +9,12 @@
 - github api 호출 제한이 있기 때문에 적당히 호출해야 합니다.
 - [hacktoberfest](https://www.hacktoberfestkorea.com/)를 진행하다 검색에 어려움이 있어 만들게 되었습니다.
 - 범용적으로 만들기 위해 '토픽', '검색일자', '지역' 을 파라미터로 받습니다.
-- 모듈화가 안되어 있어 다른 파이썬 모듈이 필요합니다.
-  - requests
-  - python-dateutil 
+
+- 필요한 패키지 설치 방법
+아래 명령어를 통해 필요한 패키지를 모두 설치할 수 있습니다.  
+```
+pip install -r requirements.txt
+```  
 
 - 사용법
   - 파라미터를 받아 처리 됩니다.
