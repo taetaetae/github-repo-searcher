@@ -22,7 +22,7 @@ def main(args):
     github_token = args['github_token']
 
     search_topic = args.get('search_topic', 'hacktoberfest')
-    search_month_range = args.get('search_month_range', 6)
+    search_month_range = int(args.get('search_month_range', 6))
     search_location = args.get('search_location', 'Korea')
     my_auth = (github_id, github_token)
 
