@@ -32,22 +32,17 @@ def main(args):
     now_datetime = datetime.datetime.now()
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
 
-    ### for the test
-    # now_datetime = parse('2015-04-26')
-    # limit_datetime = relativedelta(days=-search_month_range) + now_datetime
-    # search_base_time = str(now_datetime.strftime('%Y-%m-%d'))
-    # topics = requests.get(url=github_api_url + f'/search/users?q=phg98',
-    # # +location:{search_location}+created:{search_base_time}..{search_base_time}',
-    #                               auth=my_auth).json()
-    # print(topics)
-    # test_repos = requests.get(url=github_api_url + f'/search/repositories?q=user:phg98+topic:hacktoberfest', auth=my_auth).json()
-    # print(test_repos)
+    # for simple test, set isDebug to True. The test should found 2 repos by phg98
+    isDebug = False
+    if isDebug:
+        now_datetime = parse('2015-04-26')
+        limit_datetime = relativedelta(days=-search_month_range) + now_datetime
 
     while now_datetime > limit_datetime:
         page = 1
         while True:
             search_base_time = str(now_datetime.strftime('%Y-%m-%d'))
-            topics = requests.get(url=github_api_url + f'/search/users?q=location:{search_location}+created:{search_base_time}..{search_base_time}&page={page}',
+            topics = requests.get(url=github_api_url + f'/search/users?q=location:{search_location}+created:{search_base_time}&page={page}',
                                   auth=my_auth).json()
             time.sleep(3)
             # https://docs.github.com/en/free-pro-team@latest/rest/reference/search
