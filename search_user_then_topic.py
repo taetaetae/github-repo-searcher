@@ -32,7 +32,7 @@ def main(args):
     now_datetime = datetime.datetime.now()
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
 
-    # for simple test, set isDebug to True. The test should found 2 repos by phg98
+    # for simple test, set isDebug to True. The test should found 2 repos by phg98. It will take 1 minute.
     isDebug = False
     if isDebug:
         now_datetime = parse('2015-04-26')
@@ -42,24 +42,24 @@ def main(args):
         page = 1
         while True:
             search_base_time = str(now_datetime.strftime('%Y-%m-%d'))
-            topics = requests.get(url=github_api_url + f'/search/users?q=location:{search_location}+created:{search_base_time}&page={page}',
+            users = requests.get(url=github_api_url + f'/search/users?q=location:{search_location}+created:{search_base_time}&page={page}',
                                   auth=my_auth).json()
             time.sleep(3)
             # https://docs.github.com/en/free-pro-team@latest/rest/reference/search
             # To satisfy that need, the GitHub Search API provides up to 1,000 results for each search.
-            if int(len(topics['items'])) == 0:
+            if int(len(users['items'])) == 0:
                 break
 
             print(
                 f'search base time : {search_base_time}, ',
                 f'now time : {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}, ',
                 f'page : {page}, ',
-                f'user_count : {len(topics["items"])}, ',
-                f'total_count : {topics["total_count"]}'
+                f'user_count : {len(users["items"])}, ',
+                f'total_count : {users["total_count"]}'
             )
 
             user_string = ''
-            for user in topics['items']:
+            for user in users['items']:
                 user_string += f'user:{user["login"]}+'
             repos = requests.get(url=github_api_url + f'/search/repositories?q={user_string}topic:{search_topic}', auth=my_auth).json()
             time.sleep(3)
