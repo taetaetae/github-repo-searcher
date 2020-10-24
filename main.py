@@ -1,24 +1,28 @@
 #!/usr/bin/pyhton
 
-import requests, time, datetime
+import requests
+import time
+import datetime
 from settings import check, setting
 from dateutil.relativedelta import relativedelta
 
+
 def main():
     check()
-    # init
+
+  # init
     github_api_url = 'https://api.github.com'
     github_id = str(setting['github_id'])
     github_token = setting['github_token']
 
     search_topic = setting['search_topic']
-    search_month_range = int(setting['search_month_range'] or 6)
+    search_month_range = int(setting['search_month_range'])
     search_location = setting['search_location']
     my_auth = (github_id, github_token)
 
     now_datetime = datetime.datetime.now()
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
-    print(setting['search_topic'])
+
     while now_datetime > limit_datetime:
         page = 1
         while True:
@@ -41,7 +45,7 @@ def main():
             )
 
             for topic in topics['items']:
-                user_id=topic['owner']['login']
+                user_id = topic['owner']['login']
                 user = requests.get(url=github_api_url +
                                     f'/users/{user_id}', auth=my_auth).json()
                 time.sleep(0.5)
@@ -55,9 +59,6 @@ def main():
             page = page + 1
 
         now_datetime = now_datetime + datetime.timedelta(days=-1)
-
-
-
 
 
 if __name__ == "__main__":
