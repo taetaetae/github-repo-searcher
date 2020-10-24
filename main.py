@@ -16,7 +16,7 @@ def main():
     github_token = setting['github_token']
 
     search_topic = setting['search_topic']
-    search_month_range = int(setting['search_month_range'])
+    search_month_range = int(setting['search_month_range'] or 6)
     search_location = setting['search_location']
     my_auth = (github_id, github_token)
 
