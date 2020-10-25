@@ -1,15 +1,11 @@
 #!/usr/bin/pyhton
 
-import requests
-import time
-import datetime
+import requests, time, datetime
 from settings import check, setting
 from dateutil.relativedelta import relativedelta
 
-
 def main():
     check()
-
   # init
     github_api_url = 'https://api.github.com'
     github_id = str(setting['github_id'])

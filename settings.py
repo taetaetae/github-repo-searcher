@@ -5,7 +5,6 @@ env_path = Path('.') / '.env'
 
 setting = env.dotenv_values(dotenv_path=env_path)
 
-
 def check():
     if setting['github_id'] is None or setting['github_token'] is None or setting['search_month_range'] == 6314:
         print('Required settings are missing or search_month_range is 6314 over')
