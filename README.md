@@ -17,9 +17,17 @@ pip install -r requirements.txt
 ```  
 
 - 사용법
-  - 파라미터를 받아 처리 됩니다.
+  - `.env` 파일에 있는 값들을 받아 처리 됩니다.
   ```
-  $ python main.py github_id=taetaetae github_token=ASDFASDFASDF
+    github_id="taetaetae"
+    github_token="ASDFASDFASDF"
+    search_topic=""
+    search_month_range=""
+    search_location=""
+  ```
+
+  ```bash
+  $ python main.py 
   search base time : 2020-10-11,  now time : 2020-10-11 17:59:22,  page : 1,  user_count : 30,  total_count : 76
   Found it! = createdat :  2020-10-11T08:08:05Z , repository :  https://github.com/taetaetae/github-repo-searcher
   search base time : 2020-10-11,  now time : 2020-10-11 17:59:52,  page : 2,  user_count : 30,  total_count : 76
