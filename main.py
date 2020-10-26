@@ -1,29 +1,19 @@
 #!/usr/bin/pyhton
 
-import requests, time, datetime, sys
+import requests, time, datetime
+from settings import check, setting
 from dateutil.relativedelta import relativedelta
 
-
-def main(args):
-    dummy_dict = {}
-    for arg in args:
-        if '=' in arg:
-            split = arg.split('=')
-            dummy_dict[split[0]] = split[1]
-    args = dummy_dict
-
-    if 'github_id' not in args or 'github_id' not in args:
-        print('Required parameters are missing.')
-        exit(-1)
-
-    # init
+def main():
+    check()
+  # init
     github_api_url = 'https://api.github.com'
-    github_id = args['github_id']
-    github_token = args['github_token']
+    github_id = str(setting['github_id'])
+    github_token = setting['github_token']
 
-    search_topic = args.get('search_topic', 'hacktoberfest')
-    search_month_range = int(args.get('search_month_range', 6))
-    search_location = args.get('search_location', 'Korea')
+    search_topic = setting['search_topic']
+    search_month_range = int(setting['search_month_range'] or 6)
+    search_location = setting['search_location']
     my_auth = (github_id, github_token)
 
     now_datetime = datetime.datetime.now()
@@ -51,14 +41,16 @@ def main(args):
             )
 
             for topic in topics['items']:
-                user_id=topic['owner']['login']
-                user = requests.get(url=github_api_url + f'/users/{user_id}', auth=my_auth).json()
+                user_id = topic['owner']['login']
+                user = requests.get(url=github_api_url +
+                                    f'/users/{user_id}', auth=my_auth).json()
                 time.sleep(0.5)
                 # https://docs.github.com/en/free-pro-team@latest/rest/overview/resources-in-the-rest-api#rate-limiting
                 # For API requests using Basic Authentication or OAuth, you can make up to 5,000 requests per hour.
 
                 if 'location' in user and user['location'] is not None and search_location in user['location']:
-                    print(f'Found it! = createdat : {topic["created_at"]}, repository : {topic["html_url"]}')
+                    print(
+                        f'Found it! = createdat : {topic["created_at"]}, repository : {topic["html_url"]}')
 
             page = page + 1
 
@@ -66,4 +58,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
