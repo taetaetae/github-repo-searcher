@@ -22,11 +22,18 @@ def main(args):
 
     search_topic = args.get('search_topic', 'hacktoberfest')
     search_month_range = int(args.get('search_month_range', 6))
+    search_day_range = int(args.get('search_day_range', 0))
     search_location = args.get('search_location', 'Korea')
     my_auth = (github_id, github_token)
 
-    now_datetime = datetime.datetime.now()
+    search_start_date = args.get('search_start_date', None)
+    if search_start_date is None:
+        now_datetime = datetime.datetime.now()
+    else:
+        now_datetime = datetime.datetime.strptime(search_start_date, '%Y-%m-%d')
+    print(now_datetime)
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
+    limit_datetime += relativedelta(days=-search_day_range) 
     found_count = 0
 
     while now_datetime > limit_datetime:
@@ -68,10 +75,12 @@ def main(args):
 
 def test_main():
     args = []
-    args.append('github_id='+os.environ['GITHUB_ID'])
-    args.append('github_token='+os.environ['GITHUB_TOKEN'])
+    args.append('github_id='+os.environ['MY_GITHUB_ID'])
+    args.append('github_token='+os.environ['MY_GITHUB_TOKEN'])
     args.append('search_topic=hacktoberfest-dummy-test')
-    args.append('search_month_range=1')
+    args.append('search_month_range=0')
+    args.append('search_day_range=1')
+    args.append('search_start_date=2020-11-01')
     args.append('search_location=Korea')
     
     found_count = main(args)
