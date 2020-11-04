@@ -1,8 +1,7 @@
 #!/usr/bin/pyhton
 
-import requests, time, datetime, sys
+import requests, time, datetime, sys, os
 from dateutil.relativedelta import relativedelta
-
 
 def main(args):
     dummy_dict = {}
@@ -28,6 +27,7 @@ def main(args):
 
     now_datetime = datetime.datetime.now()
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
+    found_count = 0
 
     while now_datetime > limit_datetime:
         page = 1
@@ -59,11 +59,23 @@ def main(args):
 
                 if 'location' in user and user['location'] is not None and search_location in user['location']:
                     print(f'Found it! = createdat : {topic["created_at"]}, repository : {topic["html_url"]}')
+                    found_count += 1
 
             page = page + 1
 
         now_datetime = now_datetime + datetime.timedelta(days=-1)
+    return found_count
 
+def test_main():
+    args = []
+    args.append('github_id='+os.environ['GITHUB_ID'])
+    args.append('github_token='+os.environ['GITHUB_TOKEN'])
+    args.append('search_topic=hacktoberfest-dummy-test')
+    args.append('search_month_range=1')
+    args.append('search_location=Korea')
+    
+    found_count = main(args)
+    assert found_count == 1
 
 if __name__ == "__main__":
     main(sys.argv)
