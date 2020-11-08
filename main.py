@@ -3,7 +3,6 @@
 import requests, time, datetime, sys
 from dateutil.relativedelta import relativedelta
 
-
 def main(args):
     dummy_dict = {}
     for arg in args:
@@ -23,11 +22,19 @@ def main(args):
 
     search_topic = args.get('search_topic', 'hacktoberfest')
     search_month_range = int(args.get('search_month_range', 6))
+    search_day_range = int(args.get('search_day_range', 0))
     search_location = args.get('search_location', 'Korea')
     my_auth = (github_id, github_token)
 
-    now_datetime = datetime.datetime.now()
+    search_start_date = args.get('search_start_date', None)
+    if search_start_date is None:
+        now_datetime = datetime.datetime.now()
+    else:
+        now_datetime = datetime.datetime.strptime(search_start_date, '%Y-%m-%d')
+    print(now_datetime)
     limit_datetime = relativedelta(months=-search_month_range) + now_datetime
+    limit_datetime += relativedelta(days=-search_day_range) 
+    found_count = 0
 
     while now_datetime > limit_datetime:
         page = 1
@@ -59,11 +66,12 @@ def main(args):
 
                 if 'location' in user and user['location'] is not None and search_location in user['location']:
                     print(f'Found it! = createdat : {topic["created_at"]}, repository : {topic["html_url"]}')
+                    found_count += 1
 
             page = page + 1
 
         now_datetime = now_datetime + datetime.timedelta(days=-1)
-
+    return found_count
 
 if __name__ == "__main__":
     main(sys.argv)
